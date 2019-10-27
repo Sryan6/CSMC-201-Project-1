@@ -1,0 +1,176 @@
+# File:    design1.txt
+# Author:  Steven Ryan
+# Date:    10/16/18
+# Section: 34
+# E-mail:  sryan6@umbc.edu
+# Description:
+# Plan for the Demogorgon project.
+
+##################################
+#### DO NOT TOUCH THESE LINES ####
+from random import randint, seed #
+seed(100)                       #
+##################################
+
+#obligatory waffle constant
+EGGO = 10
+
+#constants for player and monster health
+MAX_HEALTH = 100
+MIN_HEALTH = 0
+
+DEM_MAX_HEALTH = 300
+DEM_MIN_HEALTH = 0
+
+#constants for survival
+SURVIVE_DAYS = 7
+SURVIVE_DIST = 150
+
+#constant lists of food and items
+FOODS = ["Reese's Pieces", "Pop Rocks", "Ovaltine", "Wonder Bread", "Twinkies"]
+
+ITEMS = ["Sword", "Bicycle", "Hi-C", "Heelys",
+         "Walkman", "Laser Cannon", "Rubber Band"]
+
+#constant lists of menu options
+DAY_OPTIONS = ["View Inventory", "View Current Stats", "Eat an Eggo Waffle",
+               "Nothing else."]
+ENCOUNTER_OPTIONS = ["Fight", "Flail", "Flee"]
+EQUIP_OPTIONS = ["Equip", "Unequip", "I changed my mind"]
+ACTION_OPTIONS = ["Pack up camp and go", "Stay where you are"]
+EAT_OPTIONS = ["eat it", "put it back"]
+
+# getUserChoice(choices) asks the user to select a choice from a list of choices
+#                 continuously prompts the user until the choice is valid
+#                 a valid choice is one that is a valid index in the list
+# Input:          choices; a list of all the possible choices available
+# Output:         choice; the validated choice that the user made (int)
+
+# displayMenu(choices) provides a template for the various menus throughout the
+#               game.
+# Input:        choices; one of the option lists; displays choices
+# Output:       returns nothing, because it is a print function
+
+# calcDamage(item) computes the amount of damage the passed variable will
+#              inflict on something else 
+# Input:       item; a string that deals damage
+# Output:      an integer, the amount of damage that the item deals
+
+# nothingHappens() prints out how greatful you are nothing happened. It
+#                  is Event # 5 under the "walking to civilization"
+#                  branch of the action tree.
+# Input:           None
+# Output:          None, moves on to the next part of the program
+
+# eat(food, player_health) gives a boost to the player's health that does
+#                          not make the health exceed 100.
+# Input:  takes in a string and a number; food tells what is being eaten,
+#         player_health is the amount of health before being healed
+# Output: an integer that will be the new health of the player
+
+# fight(player_health, item, inventory) fights the monster until someone
+#           dies or the player runs away. Can be boosted by items. Flail
+#           is also an option.
+# Input:    takes in an integer, string, and list. player_health is the
+#           starting health. item is the equipped booster. inventory is
+#           the list of available items
+# Output:   returns an integer of the remaining health after the end of
+#           the fight.
+
+# viewInventory() prints out a list of items you have and are able to use
+#
+# Input:    None
+# Output:   None, prints list of items in inventory
+
+# printStats() prints out the health, distance traveled, and equipped item
+#
+# Input:    None
+# Output:   None, but it prints out information about the player
+
+# equip(item, equipList) Activates an item's boost skill and allows only
+# 	      		 only one item to be equipped
+#
+# Input:    takes in a string to equip and a list to put it in.
+# Output:   returns a list that has your equipped item
+
+# unequip(equipList) Takes away the equipped item from the list and
+# 		     deactivates the ability.
+#
+# Input:    takes in a string to unequip and a list to take it out of.
+# Output:   returns a list that has no item
+
+def main():
+    # while the player isn't dead and hasn't made it far enough
+        # while dayCounter < 7 & isn't dead & hasn't made it far enough
+            # show menu with the daily choices you can make
+            displayMenu(daily_choices)
+        
+            # perform the daily tasks
+            # while choice is not 4
+                getUserChoice(DAY_OPTIONS)
+                # if the choice is 1:
+                    viewInventory()
+                    
+                    # equip choice = (input) ask if they want to equip or not
+                    # if yes:
+                        # if they say equip, ask what to equip with input (item)
+                            equip(item, equipList)
+                        # elif unequip
+                            unequip(equipList)
+                    # else go back to while loop
+                # elif the choice is 2:
+                    printStats()
+                # elif the choice is 3:
+                    # if(eggoflag == false):
+                        eat(eggo)
+                        eggoflag = true
+                # elif the choice is 4:
+                    #end the loop
+            
+            # gather input whether they are leaving or staying
+            # if they stay:
+                # demoEncounter = randint(1, 10)
+                # 70% chance of fighting the monster
+                # if(demoEncounter >= 1 and demoEncounter <= 7):
+                    fight(health, equippedItem, inventory)
+                # 30% chance of being healed to full
+                # elif(demoEncounter > 7 and demoEncounter <= 10):
+                    health = MAX_HEALTH
+            # elif they decide to leave:
+                # eventChance = randint(1, 10)
+                # EVENT 1: 20% chance you find a food backpack
+                # if(eventChance >= 1 and eventChance <= 2):
+                    # print list of foods
+                    # foodAppears = randint(1, len(FOODS))
+                    # if(index 0 is chosen of FOODS):
+                        health -= 30
+                    # elif(index 1 is chosen of FOODS):
+                        health -= 5
+                    # elif(index 2 is chosen of FOODS):
+                        health += 15
+                    # elif(index 3 is chosen of FOODS):
+                        health += 25
+                    # elif(index 4 is chosen of FOODS):
+                        health += 30
+                # EVENT 2: 20
+                # if(eventChance >= 3 and eventChance <= 4):
+                    # shedItem = randint(1, len(ITEMS))
+                    inventory.append(ITEMS[shedItem])
+                # EVENT 3: 20% chance that you fall into a trench
+                # if(eventChance >= 5 and eventChance <= 6):
+                    # daycounter increments by 1
+                    multiplier = .5
+                # EVENT 4: 30% chance that you fight the monster
+                # if(eventChance >= 7 and eventChance <= 9):
+                    fight(health, equippedItem, inventory)
+                # EVENT 5: 10% chance that nothing happens
+                # if(eventChance == 10):
+                    nothingHappens()
+
+            # walked = ((100 / 4) + 5)
+            # distanceTravelled =  distanceTravelled + walked * multiplier
+            # resetting variables for the next day
+            # eggoflag is false
+            # daycounter increments by 1
+            # multiplier = 1
+
